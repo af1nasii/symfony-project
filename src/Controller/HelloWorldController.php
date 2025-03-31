@@ -11,7 +11,7 @@ class HelloWorldController
     public function number(): Response
     {
         return new Response(
-            '<html><body align = center>Hello World!</body></html>'
+            '<html><body align = center bgcolor="#ffebcd">Hello World!</body></html>'
         );
     }
 }
