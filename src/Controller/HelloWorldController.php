@@ -4,15 +4,16 @@ namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class HelloWorldController
+class HelloWorldController extends AbstractController
 {
     #[Route('hello-world')]
     public function number(): Response
     {
-        return new Response(
-            '<html><body align = center bgcolor="#f5f5dc">Hello World!</body></html>'
-        );
+        $hello = 'Hello World!';
+        return $this->render('HelloWorld.html.twig', [
+            'hello' => $hello,]);
     }
 }
 
