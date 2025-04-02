@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Message;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Factory\MessageFactory;
+use App\Repository\MessageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,25 +11,34 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ForumController extends AbstractController
 {
-    #[Route('/forum', name: 'forum_list', methods: ['GET'])]
-    public function list(EntityManagerInterface $entityManager): Response
+    private MessageRepository $messageRepository;
+    private MessageFactory $messageFactory;
+
+    public function __construct(MessageRepository $messageRepository, MessageFactory $messageFactory)
     {
-        $messages = $entityManager->getRepository(Message::class)->findBy([], ['id' => 'DESC']);
-        return $this->render('list.html.twig', [
+        $this->messageRepository = $messageRepository;
+        $this->messageFactory = $messageFactory;
+    }
+
+    #[Route('/forum', name: 'forum_list', methods: ['GET'])]
+    public function list(): Response
+    {
+        $messages = $this->messageRepository->findBy([], ['id' => 'DESC']);
+        return $this->render('forum/list.html.twig', [
             'messages' => $messages,
         ]);
     }
 
     #[Route('/forum/post', name: 'forum_post', methods: ['POST'])]
-    public function postMessage(Request $request, EntityManagerInterface $entityManager): Response
+    public function postMessage(Request $request): Response
     {
         $content = trim($request->request->get('content'));
+
         if (!empty($content)) {
-            $message = new Message();
-            $message->setContent($content);
-            $entityManager->persist($message);
-            $entityManager->flush();
+            $message = $this->messageFactory->create($content);
+            $this->messageRepository->save($message, true);
         }
+
         return $this->redirectToRoute('forum_list');
     }
 }
