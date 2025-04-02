@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Forum</title>
+    <style>
+        body {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<h1>Comments</h1>
+<div>
+    {% for message in messages %}
+        <div>{{ message.content }}</div>
+    {% endfor %}
+</div>
+<form action="{{ path('forum_post') }}" method="post">
+    <textarea name="content"></textarea><br>
+    <button type="submit">Send</button>
+</form>
+</body>
+</html>
