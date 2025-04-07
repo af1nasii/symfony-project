@@ -40,11 +40,12 @@ class MessageRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function save(Message $message, bool $flush = true): void
+    public function save(Message $message, bool $flush = false): void
     {
-        $this->_em->persist($message);  // Persist - подготовка объекта для сохранения
+        $this->getEntityManager()->persist($message);
+
         if ($flush) {
-            $this->_em->flush();  // Сохранение в БД
+            $this->getEntityManager()->flush();
         }
     }
 }

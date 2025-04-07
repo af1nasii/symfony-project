@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250331232804 extends AbstractMigration
+final class Version20250403093913 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -21,7 +21,7 @@ final class Version20250331232804 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql(<<<'SQL'
-            ALTER TABLE message ALTER content SET NOT NULL
+            CREATE TABLE message (id SERIAL NOT NULL, content TEXT NOT NULL, PRIMARY KEY(id))
         SQL);
     }
 
@@ -32,7 +32,7 @@ final class Version20250331232804 extends AbstractMigration
             CREATE SCHEMA public
         SQL);
         $this->addSql(<<<'SQL'
-            ALTER TABLE message ALTER content DROP NOT NULL
+            DROP TABLE message
         SQL);
     }
 }

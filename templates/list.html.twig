@@ -2,23 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forum</title>
-    <style>
-        body {
-            text-align: center;
-        }
-    </style>
 </head>
 <body>
-<h1>Comments</h1>
-<div>
-    {% for message in messages %}
-        <div>{{ message.content }}</div>
-    {% endfor %}
+<h1 align="center">Message list</h1>
+
+{% for message in messages %}
+    <div align="center">
+        {{ message.content }}
+    </div>
+{% endfor %}
+
+<div align="center">
+    <h2 align="center">Add message</h2>
+        <form action="{{ path('forum_post') }}" method="post">
+            <textarea name="content" rows="4" cols="50"></textarea><br>
+            <button type="submit">Send</button>
+        </form>
 </div>
-<form action="{{ path('forum_post') }}" method="post">
-    <textarea name="content"></textarea><br>
-    <button type="submit">Send</button>
-</form>
 </body>
 </html>
+
